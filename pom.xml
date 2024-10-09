@@ -13,7 +13,7 @@
 
     <groupId>com.gaei.api.clientes</groupId>
     <artifactId>srvapiclientes</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>api de clientes</name>
     <description>Proyecto creado para prueba técnica en Banco Unión</description>
 

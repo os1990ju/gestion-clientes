@@ -31,34 +31,33 @@ public class ClienteService implements IClienteService {
     public boolean existeClientePorNumeroDocumento(String numeroDocumento) {
         return clienteRepository.findByNumeroDocumento(numeroDocumento).isPresent();
     }
+
     @Override
-public Cliente actualizarCliente(ClienteDTO clienteDTO) {
-    // Busca el cliente existente por número de documento
-    Cliente clienteExistente = clienteRepository.findByNumeroDocumento(clienteDTO.getNumeroDocumento())
-        .orElseThrow(() -> new RuntimeException("Cliente no encontrado")); // Maneja la excepción según tu lógica
+    public Cliente actualizarCliente(ClienteDTO clienteDTO) {
+  
+        Cliente clienteExistente = clienteRepository.findByNumeroDocumento(clienteDTO.getNumeroDocumento())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado")); 
 
-    // Mapea los datos del DTO a la entidad existente
-    mapToEntity(clienteDTO, clienteExistente, clienteExistente.getIdTx());
+        mapToEntity(clienteDTO, clienteExistente, clienteExistente.getIdTx());
 
-    // Guarda el cliente actualizado
-    return clienteRepository.save(clienteExistente);
-}
 
-@Override
-public Optional<ClienteDTO> consultarCliente(String tipoDocumento, String numeroDocumento) {
-    // Busca el cliente por tipo de documento y número de documento
-    Optional<Cliente> clienteOpt = clienteRepository.findByNumeroDocumento(numeroDocumento);
-    
-    if (clienteOpt.isPresent() && clienteOpt.get().getTipoDocumento().equals(tipoDocumento)) {
-        return Optional.of(toDTO(clienteOpt.get()));
+        return clienteRepository.save(clienteExistente);
     }
-    
-    return Optional.empty();
-}
 
+    @Override
+    public Optional<ClienteDTO> consultarCliente(String tipoDocumento, String numeroDocumento) {
+
+        Optional<Cliente> clienteOpt = clienteRepository.findByNumeroDocumento(numeroDocumento);
+
+        if (clienteOpt.isPresent() && clienteOpt.get().getTipoDocumento().equals(tipoDocumento)) {
+            return Optional.of(toDTO(clienteOpt.get()));
+        }
+
+        return Optional.empty();
+    }
 
     private void mapToEntity(ClienteDTO clienteDTO, Cliente cliente, String idTx) {
-        cliente.setIdTx(idTx); //se usa par no alterar el id de la tx
+        cliente.setIdTx(idTx); // se usa par no alterar el id de la tx
         cliente.setTipoDocumento(clienteDTO.getTipoDocumento());
         cliente.setNumeroDocumento(clienteDTO.getNumeroDocumento());
         cliente.setPrimerNombre(clienteDTO.getPrimerNombre());
@@ -69,7 +68,6 @@ public Optional<ClienteDTO> consultarCliente(String tipoDocumento, String numero
         cliente.setCorreoElectronico(clienteDTO.getCorreoElectronico());
     }
 
-    // Método para mapear DTO a entidad
     private void mapToEntity(ClienteDTO clienteDTO, Cliente cliente) {
         cliente.setIdTx(clienteDTO.getIdTx());
         cliente.setTipoDocumento(clienteDTO.getTipoDocumento());
@@ -82,7 +80,6 @@ public Optional<ClienteDTO> consultarCliente(String tipoDocumento, String numero
         cliente.setCorreoElectronico(clienteDTO.getCorreoElectronico());
     }
 
-    // Método para convertir Cliente a ClienteDTO
     public ClienteDTO toDTO(Cliente cliente) {
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setIdTx(cliente.getIdTx());

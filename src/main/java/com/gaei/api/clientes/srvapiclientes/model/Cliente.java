@@ -118,6 +118,14 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente [idTx=" + idTx + ", tipoDocumento=" + tipoDocumento + ", numeroDocumento=" + numeroDocumento
+                + ", primerNombre=" + primerNombre + ", segundoNombre=" + segundoNombre + ", primerApellido="
+                + primerApellido + ", segundoApellido=" + segundoApellido + ", telefono=" + telefono
+                + ", correoElectronico=" + correoElectronico + "]";
+    }
+
     
 
 }
